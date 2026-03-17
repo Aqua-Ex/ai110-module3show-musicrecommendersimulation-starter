@@ -29,6 +29,38 @@ Some prompts to answer:
 
 You can include a simple diagram or bullet list if helpful.
 
+The way how my system is works is that songs are described by mainly *what it sounds like* and *how it feels*. The main categories for songs in this system are
+
+-Genre (e.g pop, rap, rock, etc)
+-Mood (happy, sad, chill, etc)
+-Energy (The energy is described using a number from 0-1 that describes how intense/high energy it feels)
+-Tempo (beats per minute)
+-Valence(This is described using a number from 0-1 that tells us how positive the song feels)
+-Catchniess(This is described using a number from 0-1 that tells us how catchy the song is)
+Acousticness(This is described using a number from 0-1 for how 'acoustic' vs 'electronic' it sounds)
+
+For the UserProfile we categorize this based on 3 main preferences that represent what the user is looking for in a song. 
+
+-Preferred genre 
+-Preferred mood 
+-Preferred energy level
+-Temp/valence/catchiness/acousticness can be implemented to the profile as well but the three categories above provide the main amount of context needed for the system.
+
+My recommender computes scores by checking how closely the song matches the user profile. 
+For things like energy, valence and catchiness, the system gives higher scores to songs that are closer to the user's preferred values ( e.g if users base value is 0.7 energy score, then a score of 0.72 is more likely to be used that a score of 0.9). 
+If the genre of the song matches user's preferred generes then the score gets a bonus, the same happens for mood just at a lower weight/scale. We account for all these values and then compute a final score that determies if we should recommend the song or not.
+
+Once songs have a score, we sort songs from the highest score to lowest. The top N songs then go on to bemoce the recommendations (the n songs closest to the users bases values/profile are recommended).
+
+Real word systems account for more values than what we laid out but the UserProfile and final score calculations are close to how real-world recommendation systems work. Real world systems implement more AI into their systems and they implment more
+
+-Behavior-based signals (what you actually play, skip, replay,search,etc)
+-Collaborative signals(what other users like you enjoy)
+-Engagement goals(keep you watching/listening longer)
+Diversity(avoid repeating, explore new artists/genres)
+
+
+
 ---
 
 ## Getting Started
