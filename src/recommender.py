@@ -43,15 +43,17 @@ class Recommender:
         scored_songs = []
         for song in self.songs:
             # Categorical score (0-1)
+            # Genre importance halved (0.5x), mood remains 1x: (0.5*genre + mood)/1.5
             genre_match = 1.0 if song.genre == user.favorite_genre else 0.0
             mood_match = 1.0 if song.mood == user.favorite_mood else 0.0
-            categorical_score = (genre_match + mood_match) / 2.0
+            categorical_score = (0.5 * genre_match + mood_match) / 1.5
 
             # Audio score (0-1), focusing on energy
             audio_score = 1.0 - abs(user.target_energy - song.energy)
 
             # Total score (weighted average)
-            total_score = 0.5 * categorical_score + 0.5 * audio_score
+            # w_categorical = 0.25 (halved), w_audio = 0.75 (doubled)
+            total_score = 0.25 * categorical_score + 0.75 * audio_score
 
             scored_songs.append((song, total_score))
 
