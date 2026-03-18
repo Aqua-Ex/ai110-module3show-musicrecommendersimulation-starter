@@ -59,7 +59,30 @@ Real word systems account for more values than what we laid out but the UserProf
 -Engagement goals(keep you watching/listening longer)
 Diversity(avoid repeating, explore new artists/genres)
 
+### Algorithm Recipe: Hybrid Preference-Based Scoring
 
+The finalized scoring logic balances categorical preferences for presonalized recommendations. The inputs include:
+
+-User Prefrences(individual user prefrences for different categories)
+-Song data(Genre,mood,energy,valence, catchiness and acousticness)
+-Weights(Cofigurable weights for scoring components)
+
+The Steps include:
+-Load Data (We read all the songs from songs.csv into a list of songs objects)
+-Compute Scores:
+  .Categorical Score (Add score of 1 if genre matches, 0 otherwise. Similar logic for mood matching)
+  .Audio Score (Similarity for the different weights e.g energy, valence, danceability, etc)
+  .Artist Boost( +0.1 if song artist matches a user favorite)
+  .Total Score (w_categorical * categorical_score) + (w_audio * audio_score) + artist_boost
+-Rank Songs (Sort songs by total score)
+-Select Top n(Return the top n songs as recommendations)
+
+Example Output
+For a user preferring "pop" genre, "happy" mood, energy=0.8, valence=0.8, danceability=0.8, acousticness=0.2:
+-Song 1 (pop, happy, matching audio): High score (~0.9).
+-Song 2 (lofi, chill, mismatched): Low score (~0.3).
+
+Genre and mood matches might be over-priortized which means excellent songs with high audio score can be ignored by the system. It could also exhibit confirmation bias by reinforcing user preferences without introducing novelty, leading to echo chambers. The dataset can also be skewed towards popular genres since audio features assume linear prefrences.
 
 ---
 
